@@ -32,7 +32,7 @@ module Hypixel
 
             if request.has_key? 'records'
                 request['records'].each do | record |
-                    friends << Friend.new(record['receiver'], Time.at(record['started'] / 1000))
+                    friends << Friend.from_json(record)
                 end
             end
 
@@ -51,17 +51,9 @@ module Hypixel
 
             request = make_request('guild', {
                 :id => id
-            })['guild']
+            })
 
-            members = Array.new
-
-            if request.has_key? 'members'
-                request['members'].each do | member |
-                    members << GuildMember.new(member['name'], member['rank'], Time.at(member['joined'] / 1000))
-                end
-            end
-
-            guild = Guild.new id, request['name'], request['tag'], request['motd'], members, Time.at(request['created'] / 1000)
+            Guild.from_json request
         end
 
         # Looks up the guild's id using the provided name and then returns the result of guild_by_id.
@@ -111,7 +103,7 @@ module Hypixel
                 :name => username
             })
 
-            request['player']
+            Player.from_json request['player']
         end
 
         # Returns a JSON object concerning the player. Retrieved using the UUID.
@@ -127,7 +119,7 @@ module Hypixel
                 :uuid => uuid
             })
 
-            request['player']
+            Player.from_json request['player']
         end
 
         private
