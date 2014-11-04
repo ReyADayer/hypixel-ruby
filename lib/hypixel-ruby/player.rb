@@ -8,7 +8,8 @@ module Hypixel
             json = json['player']
             statHolders = Hash.new
 
-            statHolders[:blitz] = StatHolder::Generic.new json, 'HungerGames'
+            statHolders[:blitz] = StatHolder::Blitz.new json
+            
             statHolders[:arcade] = StatHolder::Generic.new json, 'Arcade'
             statHolders[:arena] = StatHolder::Generic.new json, 'Arena'
             statHolders[:cac] = StatHolder::Generic.new json, 'MCGO'
