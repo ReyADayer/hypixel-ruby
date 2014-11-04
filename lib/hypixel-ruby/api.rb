@@ -103,7 +103,7 @@ module Hypixel
                 :name => username
             })
 
-            Player.from_json request['player']
+            Player.from_json request
         end
 
         # Returns a JSON object concerning the player. Retrieved using the UUID.
@@ -119,7 +119,7 @@ module Hypixel
                 :uuid => uuid
             })
 
-            Player.from_json request['player']
+            Player.from_json request
         end
 
         private
