@@ -4,16 +4,13 @@ hypixel-ruby is a basic Ruby wrapper for the Hypixel [PublicAPI](https://github.
 
 
 ### Installing
-Start by cloning the repository: ```git clone https://github.com/Cryptkeeper/hypixel-ruby```
-
-Now build the Gem: ```gem build hypixelruby/hypixel-ruby.gemspec```
-
-And install it: ```gem install hypixel-ruby/hypixel-ruby-*.gem```
+* Start by cloning the repository: ```git clone https://github.com/Cryptkeeper/hypixel-ruby```
+* Now build the Gem: ```gem build hypixelruby/hypixel-ruby.gemspec```
+* And install it: ```gem install hypixel-ruby/hypixel-ruby-*.gem```
 
 ### Usage
-Simply require the newly installed Gem like so: ```require 'hypixel-ruby'```
-
-Create an instance of using your API key: ```hypixel = Hypixel::API.new 'your key here'```
+* Simply require the newly installed Gem like so: ```require 'hypixel-ruby'```
+* Create an instance of using your API key: ```hypixel = Hypixel::API.new 'your key here'```
 
 Note: Consult the [PublicAPI](https://github.com/HypixelDev/PublicAPI) repository for details on obtaining your API key.
 
