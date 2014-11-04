@@ -13,7 +13,7 @@ And install it: ```gem install hypixel-ruby/hypixel-ruby-*.gem```
 ### Usage
 Simply require the newly installed Gem like so: ```require 'hypixel-ruby'```
 
-Create an instance of ```Hypixel::API``` using your API key: ```hypixel = Hypixel::API.new 'your key here'```
+Create an instance of using your API key: ```hypixel = Hypixel::API.new 'your key here'```
 
 ### Example
 Simple tasks such as Guild and Friend look ups have mostly-complete APIs due to their simplicity. More complex parts such as Players and their respective GameStats are not so well developed as of this time so some nitty-gritty JSON handling may be needed.
