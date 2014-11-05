@@ -4,12 +4,22 @@ module Hypixel
 
         attr_reader :id, :name, :tag, :motd, :members, :created
 
+        # Constructs a Guild instance using the JSON object.
+        # Wraps the initialize method for future changes.
+        #
+        # Params:
+        # +json+::The JSON object to construct from.
         def self.from_json(json)
             Guild.new json['_id'], json['guild']
         end
 
         private
 
+        # Offloads the JSON object's values to the local instance.
+        #
+        # Params:
+        # +id+::The Guild's ID.
+        # +json+::The JSON object to construct from.
         def initialize(id, json)
             @id = id
             @name = json['name']
@@ -30,12 +40,21 @@ module Hypixel
 
         attr_reader :username, :rank, :joined
 
+        # Constructs a GuildMember instance using the JSON object.
+        # Wraps the initialize method for future changes.
+        #
+        # Params:
+        # +json+::The JSON object to construct from.
         def self.from_json(json)
             GuildMember.new json
         end
 
         private
 
+        # Offloads the JSON object's values to the local instance.
+        #
+        # Params:
+        # +json+::The JSON object to construct from.
         def initialize(json)
             @username = json['name']
             @rank = json['rank']
