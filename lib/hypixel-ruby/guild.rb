@@ -2,7 +2,7 @@ module Hypixel
 
     class Guild
 
-        attr_reader :id, :name, :tag, :motd, :members, :created
+        attr_reader :json, :id, :name, :tag, :motd, :members, :created
 
         # Constructs a Guild instance using the JSON object.
         # Wraps the initialize method for future changes.
@@ -20,6 +20,7 @@ module Hypixel
         # Params:
         # +json+::The JSON object to construct from.
         def initialize(json)
+            @json = json
             @id = json['_id']
             @name = json['name']
             @tag = json['tag']
@@ -37,7 +38,7 @@ module Hypixel
 
     class GuildMember
 
-        attr_reader :username, :rank, :joined
+        attr_reader :json, :username, :rank, :joined
 
         # Constructs a GuildMember instance using the JSON object.
         # Wraps the initialize method for future changes.
@@ -55,21 +56,10 @@ module Hypixel
         # Params:
         # +json+::The JSON object to construct from.
         def initialize(json)
+            @json = json
             @username = json['name']
             @rank = json['rank']
             @joined = Time.at json['joined'] / 1000
-        end
-
-        public
-
-        # Creates a JSON object that follows the same format as needed to create an instance.
-        # As such, it also matches the output of the API's requests.
-        def to_json
-            ({
-                :name => @username,
-                :rank => @rank,
-                :joined => @joined.to_i * 1000
-            }).to_json
         end
     end
 end
