@@ -12,14 +12,12 @@ module StatHolder
             @deaths = @json['deaths'] ||= 0
         end
 
-        # Returns the kit's level.
+        # Returns the Kit's level.
         #
         # Params:
         # +kit+::The name of the Kit. Case-insensitive.
         def kit_level(kit)
-            kit.downcase!
-
-            @json[kit] ||= 0
+            @json[kit.downcase] ||= 0
         end
     end
 end
