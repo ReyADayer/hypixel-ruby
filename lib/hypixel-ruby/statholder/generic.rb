@@ -5,10 +5,10 @@ module StatHolder
         attr_reader :packages, :coins
 
         def initialize(json, name)
-            @json = json['stats'][name]
-            
-            @packages = Util.ensure @json['packages'], Array.new
-            @coins = Util.ensure @json['coins'], 0
+            json = json['stats'][name]
+
+            @packages = json['packages'] ||= []
+            @coins = json['coins'] ||= 0
         end
     end
 end

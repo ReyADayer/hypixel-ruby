@@ -5,33 +5,24 @@ module Hypixel
         attr_reader :id, :name, :tag, :motd, :members, :created
 
         def self.from_json(json)
-            members = Array.new
-            id = json['_id']
-            json = json['guild']
+            Guild.new json['_id'], json['guild']
+        end
+
+        private
+
+        def initialize(id, json)
+            @id = id
+            @name = json['name']
+            @tag = json['tag']
+            @motd = json['motd'] ||= []
+            @members = []
+            @created = Time.at json['created'] / 1000
 
             if json.has_key? 'members'
                 json['members'].each do | member |
-                    members << GuildMember.from_json(member)
+                    @members << GuildMember.new(json)
                 end
             end
-
-            Guild.new( # This is probably bad syntax.
-                id,
-                json['name'],
-                json['tag'],
-                json['motd'],
-                members,
-                Time.at(json['created'] / 1000)
-            )
-        end
-
-        def initialize(id, name, tag, motd, members, created)
-            @id = id
-            @name = name
-            @tag = tag
-            @motd = motd
-            @members = members
-            @created = created
         end
     end
 
@@ -40,13 +31,15 @@ module Hypixel
         attr_reader :username, :rank, :joined
 
         def self.from_json(json)
-            GuildMember.new json['name'], json['rank'], Time.at(json['joined'] / 1000)
+            GuildMember.new json
         end
 
-        def initialize(username, rank, joined)
-            @username = username
-            @rank = rank
-            @joined = joined
+        private
+
+        def initialize(json)
+            @username = json['name']
+            @rank = json['rank']
+            @joined = Time.at json['joined'] / 1000
         end
     end
 end
