@@ -5,28 +5,27 @@ module Hypixel
         attr_reader :username, :uuid, :statHolders
 
         def self.from_json(json)
-            json = json['player']
-            statHolders = Hash.new
-
-            statHolders[:blitz] = StatHolder::Blitz.new json
-            
-            statHolders[:arcade] = StatHolder::Generic.new json, 'Arcade'
-            statHolders[:arena] = StatHolder::Generic.new json, 'Arena'
-            statHolders[:cac] = StatHolder::Generic.new json, 'MCGO'
-            statHolders[:paintball] = StatHolder::Generic.new json, 'Paintball'
-            statHolders[:quake] = StatHolder::Generic.new json, 'Quake'
-            statHolders[:tntgames] = StatHolder::Generic.new json, 'TNTGames'
-            statHolders[:vampirez] = StatHolder::Generic.new json, 'VampireZ'
-            statHolders[:walls] = StatHolder::Generic.new json, 'Walls'
-            statHolders[:MegaWalls] = StatHolder::Generic.new json, 'Walls3'
-
-            Player.new json['playername'], json['uuid'], statHolders
+            Player.new json['player']
         end
 
-        def initialize(username, uuid, statHolders)
-            @username = username
-            @uuid = uuid
-            @statHolders = statHolders
+        private
+
+        def initialize(json)
+            @username = json['playername']
+            @uuid = json['uuid']
+            @statHolders = Hash.new
+
+            @statHolders[:Arcade] = StatHolder::Generic.new json, 'Arcade'
+            @statHolders[:Arena] = StatHolder::Generic.new json, 'Arena'
+            @statHolders[:CaC] = StatHolder::Generic.new json, 'MCGO'
+            @statHolders[:Paintball] = StatHolder::Generic.new json, 'Paintball'
+            @statHolders[:Quake] = StatHolder::Generic.new json, 'Quake'
+            @statHolders[:TNTGames] = StatHolder::Generic.new json, 'TNTGames'
+            @statHolders[:VampireZ] = StatHolder::Generic.new json, 'VampireZ'
+            @statHolders[:Walls] = StatHolder::Generic.new json, 'Walls'
+            @statHolders[:MegaWalls] = StatHolder::Generic.new json, 'Walls3'
+
+            @statHolders[:Blitz] = StatHolder::Blitz.new json
         end
     end
 end

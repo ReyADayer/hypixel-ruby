@@ -2,7 +2,7 @@ require 'hypixel-ruby'
 
 api = Hypixel::API.new 'your api key here'
 player = api.player_by_username 'Cryptsie'
-statHolder = player.statHolders[:blitz]
+statHolder = player.statHolders[:Blitz]
 
 puts    "Coins: #{statHolder.coins}",
         "Wins: #{statHolder.wins}",
