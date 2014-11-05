@@ -15,7 +15,7 @@ hypixel-ruby is a basic Ruby wrapper for the Hypixel [PublicAPI](https://github.
 Note: Consult the [PublicAPI](https://github.com/HypixelDev/PublicAPI) repository for details on obtaining your API key.
 
 ### Example
-Simple tasks such as Guild and Friend look ups have mostly-complete APIs due to their simplicity. More complex parts such as Players and their respective GameStats are not so well developed as of this time so some nitty-gritty JSON handling may be needed.
+Simple tasks such as Guild and Friend look ups have mostly-complete APIs due to their simplicity. More complex parts such as Players and their respective StatHolders are not so well developed as of this time so some nitty-gritty JSON handling may be needed.
 
 Looping through Guild members:
 ```
