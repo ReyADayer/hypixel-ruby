@@ -23,5 +23,16 @@ module Hypixel
             @username = json['receiver']
             @since = Time.at json['started'] / 1000
         end
+
+        public
+
+        # Creates a JSON object that follows the same format as needed to create an instance.
+        # As such, it also matches the output of the API's requests.
+        def to_json
+            ({
+                :receiver => @username,
+                :since => @since.to_i * 1000
+            }).to_json
+        end
     end
 end

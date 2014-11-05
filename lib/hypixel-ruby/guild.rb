@@ -10,7 +10,7 @@ module Hypixel
         # Params:
         # +json+::The JSON object to construct from.
         def self.from_json(json)
-            Guild.new json['_id'], json['guild']
+            Guild.new json['guild']
         end
 
         private
@@ -18,10 +18,9 @@ module Hypixel
         # Offloads the JSON object's values to the local instance.
         #
         # Params:
-        # +id+::The Guild's ID.
         # +json+::The JSON object to construct from.
-        def initialize(id, json)
-            @id = id
+        def initialize(json)
+            @id = json['_id']
             @name = json['name']
             @tag = json['tag']
             @motd = json['motd'] ||= []
@@ -30,7 +29,7 @@ module Hypixel
 
             if json.has_key? 'members'
                 json['members'].each do | member |
-                    @members << GuildMember.new(json)
+                    @members << GuildMember.new(member)
                 end
             end
         end
@@ -59,6 +58,18 @@ module Hypixel
             @username = json['name']
             @rank = json['rank']
             @joined = Time.at json['joined'] / 1000
+        end
+
+        public
+
+        # Creates a JSON object that follows the same format as needed to create an instance.
+        # As such, it also matches the output of the API's requests.
+        def to_json
+            ({
+                :name => @username,
+                :rank => @rank,
+                :joined => @joined.to_i * 1000
+            }).to_json
         end
     end
 end
