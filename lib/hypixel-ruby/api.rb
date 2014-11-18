@@ -39,7 +39,7 @@ module Hypixel
             friends
         end
 
-        # Returns a JSON object concerning the Guild.
+        # Returns a Guild object concerning the Guild.
         # Retrieved using the Guild's ID.
         #
         # Calls API method "guild"
@@ -56,7 +56,7 @@ module Hypixel
             Guild.from_json request
         end
 
-        # Looks up the guild's id using the provided name and then returns the result of guild_by_id.
+        # Looks up the Guild's id using the provided name and then returns the result of guild_by_id.
         # Due to it's nature, this runs two queries.
         #
         # Calls API method "findGuild"
@@ -90,7 +90,7 @@ module Hypixel
             guild_by_id id
         end
 
-        # Returns a JSON object concerning the player. Retrieved using the username.
+        # Returns a Player object concerning the Player. Retrieved using the username.
         #
         # Calls API method "player"
         #
@@ -106,7 +106,7 @@ module Hypixel
             Player.from_json request
         end
 
-        # Returns a JSON object concerning the player. Retrieved using the UUID.
+        # Returns a Player object concerning the Player. Retrieved using the UUID.
         #
         # Calls API method "player"
         #
@@ -120,6 +120,22 @@ module Hypixel
             })
 
             Player.from_json request
+        end
+
+        # Returns a Session concerning the Player. Retrieved using the username.
+        #
+        # Calls API method "player"
+        #
+        # Params:
+        # +username+::The username of the player.
+        def session_by_username(username)
+            @logger.info "Looking up session by username [#{username}]"
+
+            request = make_request('session', {
+                :player => username
+            })
+
+            Session.from_json request
         end
 
         private
