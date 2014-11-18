@@ -10,11 +10,6 @@ module Hypixel
 
         def initialize(apiKey)
             @apiKey = apiKey
-            @logger = Logger.new STDOUT
-
-            @logger.formatter = proc do | severity, datetime, prognam, msg |
-                "[#{severity} #{datetime}] #{msg}\n"
-            end
         end
 
         # Returns an Array of Friend instances consisting of the Player's friends list.
@@ -22,8 +17,6 @@ module Hypixel
         # Params:
         # +username+::Username to find Friends of.
         def friends_by_username(username)
-            @logger.info "Looking up friends by username [#{username}]"
-
             request = make_request('friends', {
                 :player => username
             })
@@ -47,8 +40,6 @@ module Hypixel
         # Params:
         # +id+::The ID of the Guild.
         def guild_by_id(id)
-            @logger.info "Looking up guild by id [#{id}]"
-
             request = make_request('guild', {
                 :id => id
             })
@@ -64,8 +55,6 @@ module Hypixel
         # Params:
         # +name+::The name of the Guild.
         def guild_by_name(name)
-            @logger.info "Looking up guild by name [#{name}]"
-
             id = make_request('findGuild', {
                 :byName => name
             })['guild']
@@ -81,13 +70,9 @@ module Hypixel
         # Params:
         # +username+::The username of a member of the Guild.
         def guild_by_member(username)
-            @logger.info "Looking up guild by member [#{username}]"
-
-            id = make_request('findGuild', {
+            guild_by_id make_request('findGuild', {
                 :byPlayer => username
             })['guild']
-
-            guild_by_id id
         end
 
         # Returns a Player object concerning the Player. Retrieved using the username.
@@ -97,8 +82,6 @@ module Hypixel
         # Params:
         # +username+::Using a UUID is preferred to make sure you get the desired player.
         def player_by_username(username)
-            @logger.info "Looking up player by username [#{username}]"
-
             request = make_request('player', {
                 :name => username
             })
@@ -113,8 +96,6 @@ module Hypixel
         # Params:
         # +uuid+::The player's UUID. This should NOT contain dashes.
         def player_by_uuid(uuid)
-            @logger.info "Looking up player by UUID [#{uuid}]"
-
             request = make_request('player', {
                 :uuid => uuid
             })
@@ -129,8 +110,6 @@ module Hypixel
         # Params:
         # +username+::The username of the player.
         def session_by_username(username)
-            @logger.info "Looking up session by username [#{username}]"
-
             request = make_request('session', {
                 :player => username
             })
