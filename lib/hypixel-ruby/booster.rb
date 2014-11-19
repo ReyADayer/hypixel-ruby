@@ -2,7 +2,7 @@ module Hypixel
 
     class Booster
 
-        attr_reader :json, :purchaser, :multiplier, :activated, :duration, :remainingDuration
+        attr_reader :json, :purchaser, :multiplier, :activated, :duration, :remainingDuration, :gameType
 
         # Constructs a Booster instance using the JSON object.
         # Wraps the initialize method for future changes.
@@ -26,6 +26,7 @@ module Hypixel
             @activated = Time.at(json['dateActivated'] / 1000)
             @duration = json['originalLength']
             @remainingDuration = json['length']
+            @gameType = GameType.from_id json['gameType']
         end
     end
 end
