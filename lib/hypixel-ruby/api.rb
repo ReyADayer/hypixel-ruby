@@ -117,6 +117,22 @@ module Hypixel
             Session.from_json request
         end
 
+        # Returns an Array of active Boosters.
+        #
+        # Calls API method "boosters"
+        def boosters
+            request = make_request('boosters')
+            boosters = Array.new
+
+            if request.has_key? 'boosters'
+                request['boosters'].each do | json |
+                    boosters << Booster.from_json(json)
+                end
+            end
+
+            boosters
+        end
+
         private
 
         # Automatically generates and executes a request given the type and parameters.
