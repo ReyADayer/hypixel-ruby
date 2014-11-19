@@ -140,8 +140,7 @@ module Hypixel
         # Params:
         # +type+::The API method being called. Tends to be a magic value.
         # +params+::Request parameters, the API key is automagically apended to this array.
-        def make_request(type, params = nil)
-            params ||= {}
+        def make_request(type, params = {})
             params[:key] = apiKey
 
             uri = URI.parse "https://api.hypixel.net/#{type}"
