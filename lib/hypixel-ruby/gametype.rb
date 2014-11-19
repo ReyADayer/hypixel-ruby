@@ -30,5 +30,34 @@ module Hypixel
                 return :MegaWalls
             end
         end
+
+        # Converts the numerical id into the Ruby symbol.
+        #
+        # Params:
+        # +id+::The numerical id to convert.
+        def self.from_id(id)
+            case id
+            when 2
+                return :Quakecraft
+            when 3
+                return :Walls
+            when 4
+                return :Paintball
+            when 5
+                return :Blitz
+            when 6
+                return :TNTGames
+            when 7
+                return :VampireZ
+            when 13
+                return :MegaWalls
+            when 14
+                return :Arcade
+            when 17
+                return :Arena
+            when 21
+                return :CaC
+            end
+        end
     end
 end
