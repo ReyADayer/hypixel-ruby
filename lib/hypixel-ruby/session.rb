@@ -2,7 +2,7 @@ module Hypixel
 
     class Session
 
-        attr_reader :json, :gameType, :id, :players
+        attr_reader :json, :gameType, :id, :players, :server
 
         # Constructs a Session instance using the JSON object.
         # Wraps the initialize method for future changes.
@@ -21,9 +21,10 @@ module Hypixel
         # +json+::The JSON object to construct from.
         def initialize(json)
             @json = json
-            @gameType = json['gameType']
+            @gameType = GameType.from_string json['gameType']
             @id = json['id']
             @players = json['players'] ||= []
+            @server = json['server']
         end
     end
 end
