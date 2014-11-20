@@ -64,24 +64,14 @@ module Hypixel
         #
         # Params:
         # +symbol+::The Ruby symbol to convert.
-        def self.name(symbol)
+        def self.from_symbol(symbol)
             case symbol
-            when :Quakecraft
-                return 'Quakecraft'
-            when :Walls
-                return 'Walls'
-            when :Paintball
-                return 'Paintball'
+            when :Quakecraft, :Walls, :Paintball, :TNTGames, :VampireZ, :Arcade
+                return symbol.to_s
             when :Blitz
                 return 'Blitz SG'
-            when :TNTGames
-                return 'TNTGames'
-            when :VampireZ
-                return 'VampireZ'
             when :MegaWalls
                 return 'Mega Walls'
-            when :Arcade
-                return 'Arcade'
             when :Arena
                 return 'Arena Brawl'
             when :Cac
