@@ -2,10 +2,10 @@ module Hypixel
 
     class GameType
 
-        # Converts the string version into the Ruby symbol.
+        # Returns the Ruby symbol for the matching GameType.
         #
         # Params:
-        # +string+::The JSON string to convert.
+        # +string+::The technical name.
         def self.from_string(string)
             case string
             when 'SURVIVAL_GAMES'
@@ -31,10 +31,10 @@ module Hypixel
             end
         end
 
-        # Converts the numerical id into the Ruby symbol.
+        # Returns the Ruby symbol for the matching GameType.
         #
         # Params:
-        # +id+::The numerical id to convert.
+        # +id+::The numerical id.
         def self.from_id(id)
             case id
             when 2
@@ -60,10 +60,10 @@ module Hypixel
             end
         end
 
-        # Converts the Ruby symbol into the clean name.
+        # Returns the clean name for the matching GameType.
         #
         # Params:
-        # +symbol+::The Ruby symbol to convert.
+        # +symbol+::The Ruby symbol.
         def self.from_symbol(symbol)
             case symbol
             when :Quakecraft, :Walls, :Paintball, :TNTGames, :VampireZ, :Arcade
@@ -76,6 +76,35 @@ module Hypixel
                 return 'Arena Brawl'
             when :Cac
                 return 'Cops and Crims'
+            end
+        end
+
+        # Returns the Ruby symbol for the matching GameType.
+        #
+        # Params:
+        # +name+::The database/storage name.
+        def self.from_db_name(name)
+            case name
+            when 'Quake'
+                return :Quakecraft
+            when 'Walls'
+                return :Walls
+            when 'Paintball'
+                return :Paintball
+            when 'HungerGames'
+                return :Blitz
+            when 'TNTGames'
+                return :TNTGames
+            when 'VampireZ'
+                return :VampireZ
+            when 'Walls3'
+                return :MegaWalls
+            when 'Arcade'
+                return :Arcade
+            when 'Arena'
+                return :Arena
+            when 'MCGO'
+                return :CaC
             end
         end
     end
