@@ -23,7 +23,7 @@ module Hypixel
             @json = json
             @purchaser = json['purchaser']
             @multiplier = json['amount']
-            @activated = Time.at(json['dateActivated'] / 1000)
+            @activated = Time.at json['dateActivated'] / 1000
             @duration = json['originalLength']
             @remainingDuration = json['length']
             @gameType = GameType.from_id json['gameType']

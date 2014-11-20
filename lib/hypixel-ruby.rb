@@ -5,14 +5,8 @@ require_relative 'hypixel-ruby/player'
 require_relative 'hypixel-ruby/session'
 require_relative 'hypixel-ruby/gametype'
 require_relative 'hypixel-ruby/booster'
-
-require_relative 'hypixel-ruby/statholder/generic'
-require_relative 'hypixel-ruby/statholder/blitz'
+require_relative 'hypixel-ruby/stats'
 
 module Hypixel
-
-end
-
-module StatHolder
 
 end
