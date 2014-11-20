@@ -59,5 +59,34 @@ module Hypixel
                 return :CaC
             end
         end
+
+        # Converts the Ruby symbol into the clean name.
+        #
+        # Params:
+        # +symbol+::The Ruby symbol to convert.
+        def self.name(symbol)
+            case symbol
+            when :Quakecraft
+                return 'Quakecraft'
+            when :Walls
+                return 'Walls'
+            when :Paintball
+                return 'Paintball'
+            when :Blitz
+                return 'Blitz SG'
+            when :TNTGames
+                return 'TNTGames'
+            when :VampireZ
+                return 'VampireZ'
+            when :MegaWalls
+                return 'Mega Walls'
+            when :Arcade
+                return 'Arcade'
+            when :Arena
+                return 'Arena Brawl'
+            when :Cac
+                return 'Cops and Crims'
+            end
+        end
     end
 end
