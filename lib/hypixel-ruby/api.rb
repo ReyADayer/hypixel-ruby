@@ -133,6 +133,14 @@ module Hypixel
             boosters
         end
 
+        # Returns the online player count.
+        # Should be updated every second by the API server.
+        #
+        # Calls API method "playerCount"
+        def player_count
+            make_request('playerCount')['count']
+        end
+
         private
 
         # Automatically generates and executes a request given the type and parameters.
