@@ -1,12 +1,12 @@
 Gem::Specification.new do | spec |
-	spec.name			= 'hypixel-ruby'
+	spec.name		= 'hypixel-ruby'
 	spec.version		= '1.2.2'
-	spec.date			= '2014-11-18'
+	spec.date		= '2014-11-18'
 	spec.summary		= 'Hypixel API'
 	spec.description	= 'Bare-bones Ruby wrapper for the Hypixel API.'
 	spec.authors		= ['Cryptkeeper']
 	spec.homepage		= 'http://hypixel.net'
 	spec.license		= 'MIT'
-	spec.files			= Dir['lib/**/*.rb']
-	spec.email			= 'cryptkeeper.dev@gmail.com'
+	spec.files		= Dir['lib/**/*.rb']
+	spec.email		= 'cryptkeeper.dev@gmail.com'
 end
