@@ -33,6 +33,14 @@ friends.each do | friend |
 end
 ````
 
+Seeing how many Blitz coins a player has:
+````
+player = hypixel.player_by_username 'Cryptsie'
+coins = player.stats.coins[:Blitz]
+
+puts "#{player.username} has #{coins} Blitz coins"
+````
+
 ### Notes
 * It's worth noting all calls are done sync so don't do anything too silly.
 * Some calls (such as the Guilds) require two lookups due to the parameters required for the request. Always use the recommended methods when possible to avoid using extra resources.
