@@ -21,7 +21,7 @@ module Hypixel
                 :player => username
             })
 
-            friends = Array.new
+            friends = []
 
             if request.has_key? 'records'
                 request['records'].each do | record |
@@ -122,7 +122,7 @@ module Hypixel
         # Calls API method "boosters"
         def boosters
             request = make_request('boosters')
-            boosters = Array.new
+            boosters = []
 
             if request.has_key? 'boosters'
                 request['boosters'].each do | json |
