@@ -41,6 +41,14 @@ coins = player.stats.coins[:Blitz]
 puts "#{player.username} has #{coins} Blitz coins"
 ````
 
+Or maybe seeing what Hat a player has in Arena Brawl:
+````
+player = hypixel.player_by_username 'Cryptsie'
+hat = player.stats.fields[:Arena]['hat']
+
+puts "#{player.username} has the \"#{hat}\" hat!"
+````
+
 ### Notes
 * It's worth noting all calls are done sync so don't do anything too silly.
 * Some calls (such as the Guilds) require two lookups due to the parameters required for the request. Always use the recommended methods when possible to avoid using extra resources.
