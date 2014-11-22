@@ -74,7 +74,7 @@ module Hypixel
                 return 'Mega Walls'
             when :Arena
                 return 'Arena Brawl'
-            when :Cac
+            when :CaC
                 return 'Cops and Crims'
             end
         end
