@@ -2,7 +2,7 @@ module Hypixel
 
     class Stats
 
-        attr_reader :packages, :coins, :json
+        attr_reader :packages, :coins, :json, :fields
 
         # Constructs a Stats instance using the JSON object.
         # Wraps the initialize method for future changes.
@@ -23,6 +23,7 @@ module Hypixel
             @packages = {}
             @coins = {}
             @json = {}
+            @fields = {}
 
             json.keys.each do | key |
                 gameType = GameType.from_db_name key
@@ -30,6 +31,11 @@ module Hypixel
                 @packages[gameType] = json[key]['packages'] ||= []
                 @coins[gameType] = json[key]['coins'] ||= 0
                 @json[gameType] = json[key]
+                @fields[gameType] = {}
+
+                json[key].each do | key, value |
+                    @fields[gameType][key] = value
+                end
             end
         end
     end
