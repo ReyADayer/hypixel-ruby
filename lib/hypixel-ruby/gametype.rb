@@ -82,6 +82,7 @@ module Hypixel
                     return 'BSG'
                 when :MegaWalls
                     return 'MW'
+                end
             end
 
             case symbol
