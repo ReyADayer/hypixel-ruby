@@ -64,7 +64,26 @@ module Hypixel
         #
         # Params:
         # +symbol+::The Ruby symbol.
-        def self.from_symbol(symbol)
+        # +shoftHand+::If true, returns the shortened version of the name.
+        def self.from_symbol(symbol, shortHand = false)
+            if shortHand
+                case symbol
+                when :Quakecraft
+                    return 'Quake'
+                when :Walls, :Arcade, :Arena, :CaC
+                    return symbol.to_s
+                when :TNTGames
+                    return 'TNT'
+                when :Paintball
+                    return 'PB'
+                when :VampireZ
+                    return 'VZ'
+                when :Blitz
+                    return 'BSG'
+                when :MegaWalls
+                    return 'MW'
+            end
+
             case symbol
             when :Quakecraft, :Walls, :Paintball, :TNTGames, :VampireZ, :Arcade
                 return symbol.to_s
