@@ -1,6 +1,6 @@
 ## hypixel-ruby
 
-hypixel-ruby is a basic Ruby wrapper for the Hypixel [PublicAPI](https://github.com/HypixelDev/PublicAPI). It's designed to be used to interface with the API and provides several classes and methods designed to easily allow you to work with the data compared to manually parsing the JSON object the API provides.
+hypixel-ruby is a basic Ruby client for the Hypixel [PublicAPI](https://github.com/HypixelDev/PublicAPI). It's designed to be used to interface with the API and provides several classes and methods designed to easily allow you to work with the data compared to manually parsing the JSON object the API provides.
 
 
 ### Installing
