@@ -17,7 +17,7 @@ Note: Consult the [PublicAPI](https://github.com/HypixelDev/PublicAPI) repositor
 ### Example
 Simple tasks such as Guild and Friend look ups have mostly-complete APIs due to their simplicity. More complex parts such as Players and their respective Stats are not so well developed as of this time so some nitty-gritty JSON handling may be needed.
 
-Also, all API calls accept a block, or you can just be old fashioned and assign it to a variable. Up to you.
+Also, all API calls accept a block, or you can just be old fashioned and assign it to a variable.
 
 Looping through Guild members:
 ```ruby
