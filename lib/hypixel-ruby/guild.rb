@@ -30,7 +30,7 @@ module Hypixel
 
             if json.has_key? 'members'
                 json['members'].each do | member |
-                    @members << GuildMember.new(member)
+                    @members << GuildMember.from_json(member)
                 end
             end
         end

@@ -9,13 +9,13 @@ module Hypixel
         # +ranks+::List of ranks to sort.
         # +symbols+::Whether or not the list provided is raw strings or symbols.
         def self.top(ranks, symbols = true)
-            return ranks.max_by do | rank |
+            return from_string(ranks.max_by do | rank |
                 unless symbols
                     rank = from_string rank
                 end
 
                 to_ordinal rank
-            end
+            end)
         end
 
         # Returns the symbol for the matching Rank.
@@ -60,11 +60,7 @@ module Hypixel
 
             return nil unless @ranks.has_value? ordinal
 
-            @ranks.each do | key, value |
-                if value.eql? ordinal
-                    return key
-                end
-            end
+            @ranks.key ordinal
         end
 
         # Returns the matching ordinal for the symbol.
@@ -76,9 +72,7 @@ module Hypixel
 
             return -1 unless @ranks.has_key? rank
 
-            if @ranks.has_key? rank
-                return @ranks[rank]
-            end
+            @ranks[rank]
         end
     end
 end

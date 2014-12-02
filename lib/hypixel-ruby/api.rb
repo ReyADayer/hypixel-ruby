@@ -29,6 +29,10 @@ module Hypixel
                 end
             end
 
+            if block_given?
+                yield friends
+            end
+
             friends
         end
 
@@ -44,7 +48,13 @@ module Hypixel
                 :id => id
             })
 
-            Guild.from_json request
+            guild = Guild.from_json request
+
+            if block_given?
+                yield guild
+            end
+
+            guild
         end
 
         # Looks up the Guild's id using the provided name and then returns the result of guild_by_id.
@@ -86,7 +96,13 @@ module Hypixel
                 :name => username
             })
 
-            Player.from_json request
+            player = Player.from_json request
+
+            if block_given?
+                yield player
+            end
+
+            player
         end
 
         # Returns a Player object concerning the Player. Retrieved using the UUID.
@@ -100,7 +116,13 @@ module Hypixel
                 :uuid => uuid
             })
 
-            Player.from_json request
+            player = Player.from_json request
+
+            if block_given?
+                yield player
+            end
+
+            player
         end
 
         # Returns a Session concerning the Player. Retrieved using the username.
@@ -114,7 +136,13 @@ module Hypixel
                 :player => username
             })
 
-            Session.from_json request
+            session = Session.from_json request
+
+            if block_given?
+                yield session
+            end
+
+            session
         end
 
         # Returns an Array of active Boosters.
@@ -130,6 +158,10 @@ module Hypixel
                 end
             end
 
+            if block_given?
+                yield boosters
+            end
+
             boosters
         end
 
@@ -138,7 +170,13 @@ module Hypixel
         #
         # Calls API method "playerCount"
         def player_count
-            make_request('playerCount')['count']
+            playerCount = make_request('playerCount')['count']
+
+            if block_given?
+                yield playerCount
+            end
+
+            playerCount
         end
 
         private
