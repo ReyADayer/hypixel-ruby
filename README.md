@@ -15,7 +15,9 @@ hypixel-ruby is a basic Ruby client for the Hypixel [PublicAPI](https://github.c
 Note: Consult the [PublicAPI](https://github.com/HypixelDev/PublicAPI) repository for details on obtaining your API key.
 
 ### Example
-Simple tasks such as Guild and Friend look ups have mostly-complete APIs due to their simplicity. More complex parts such as Players and their respective StatHolders are not so well developed as of this time so some nitty-gritty JSON handling may be needed.
+Simple tasks such as Guild and Friend look ups have mostly-complete APIs due to their simplicity. More complex parts such as Players and their respective Stats are not so well developed as of this time so some nitty-gritty JSON handling may be needed.
+
+Also, all API calls accept a block, or you can just be old fashioned and assign it to a variable. Up to you.
 
 Looping through Guild members:
 ```ruby
