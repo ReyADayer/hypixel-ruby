@@ -5,7 +5,7 @@ hypixel-ruby is a basic Ruby client for the Hypixel [PublicAPI](https://github.c
 
 ### Installing
 * Start by cloning the repository: ```git clone https://github.com/Cryptkeeper/hypixel-ruby```
-* Now build the Gem: ```gem build hypixelruby/hypixel-ruby.gemspec```
+* Now build the Gem: ```gem build hypixel-ruby/hypixel-ruby.gemspec```
 * And install it: ```gem install hypixel-ruby/hypixel-ruby-*.gem```
 
 ### Usage
@@ -18,7 +18,7 @@ Note: Consult the [PublicAPI](https://github.com/HypixelDev/PublicAPI) repositor
 Simple tasks such as Guild and Friend look ups have mostly-complete APIs due to their simplicity. More complex parts such as Players and their respective StatHolders are not so well developed as of this time so some nitty-gritty JSON handling may be needed.
 
 Looping through Guild members:
-```
+```ruby
 guild = hypixel.guild_by_name 'Kids on your Lawn'
 guild.members.each do | member |
         puts "ban #{member.username} Get off my lawn."
@@ -26,7 +26,7 @@ end
 ```
 
 Getting all the friends of a player:
-```
+```ruby
 friends = hypixel.friends_by_username 'Santa'
 friends.each do | friend |
         puts "#{friend.username} has been a friend of Santa since #{friend.since}"
@@ -34,7 +34,7 @@ end
 ````
 
 Seeing how many Blitz coins a player has:
-````
+```ruby
 player = hypixel.player_by_username 'Cryptsie'
 coins = player.stats.coins[:Blitz]
 
@@ -42,7 +42,7 @@ puts "#{player.username} has #{coins} Blitz coins"
 ````
 
 Or maybe seeing what Hat a player has in Arena Brawl:
-````
+```ruby
 player = hypixel.player_by_username 'Cryptsie'
 hat = player.stats.fields[:Arena]['hat']
 
@@ -52,6 +52,8 @@ puts "#{player.username} has the \"#{hat}\" hat!"
 ### Notes
 * It's worth noting all calls are done sync so don't do anything too silly.
 * Some calls (such as the Guilds) require two lookups due to the parameters required for the request. Always use the recommended methods when possible to avoid using extra resources.
+* Due to the lack of extensive features, you may need to hook into the raw JSON responses.
+* The codebase may change often and at random as it gets formalized.
 * For more information, consult the official [PublicAPI](https://github.com/HypixelDev/PublicAPI) repository.
 
 ### Warning
