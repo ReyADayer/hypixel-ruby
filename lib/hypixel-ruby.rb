@@ -6,6 +6,7 @@ require_relative 'hypixel-ruby/session'
 require_relative 'hypixel-ruby/gametype'
 require_relative 'hypixel-ruby/booster'
 require_relative 'hypixel-ruby/stats'
+require_relative 'hypixel-ruby/rank'
 
 module Hypixel
 

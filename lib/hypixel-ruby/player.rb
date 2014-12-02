@@ -2,7 +2,7 @@ module Hypixel
 
     class Player
 
-        attr_reader :json, :username, :uuid, :stats
+        attr_reader :json, :username, :uuid, :stats, :rank
 
         # Constructs a Player instance using the JSON object.
         # Wraps the initialize method for future changes.
@@ -24,6 +24,7 @@ module Hypixel
             @username = json['playername']
             @uuid = json['uuid']
             @stats = Stats.from_json json
+            @rank = Rank.top [json['rank'], json['packageRank'], json['newPackageRank']], false
         end
     end
 end
