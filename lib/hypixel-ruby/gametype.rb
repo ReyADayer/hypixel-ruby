@@ -2,10 +2,10 @@ module Hypixel
 
     class GameType
 
-        # Returns the Ruby symbol for the matching GameType.
+        # Returns the symbol for the matching GameType.
         #
         # Params:
-        # +string+::The technical name.
+        # +string+::The technical name returned by the API.
         def self.from_string(string)
             case string
             when 'SURVIVAL_GAMES'
@@ -31,7 +31,7 @@ module Hypixel
             end
         end
 
-        # Returns the Ruby symbol for the matching GameType.
+        # Returns the symbol for the matching GameType.
         #
         # Params:
         # +id+::The numerical id.
@@ -63,7 +63,7 @@ module Hypixel
         # Returns the clean name for the matching GameType.
         #
         # Params:
-        # +symbol+::The Ruby symbol.
+        # +symbol+::The symbol.
         # +shoftHand+::If true, returns the shortened version of the name.
         def self.from_symbol(symbol, shortHand = false)
             if shortHand
@@ -99,10 +99,10 @@ module Hypixel
             end
         end
 
-        # Returns the Ruby symbol for the matching GameType.
+        # Returns the symbol for the matching GameType.
         #
         # Params:
-        # +name+::The database/storage name.
+        # +name+::The database name used in the API.
         def self.from_db_name(name)
             case name
             when 'Quake'
