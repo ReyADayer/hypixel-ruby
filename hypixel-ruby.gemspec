@@ -1,6 +1,6 @@
 Gem::Specification.new do | spec |
 	spec.name		= 'hypixel-ruby'
-	spec.version		= '1.5'
+	spec.version		= '1.5.1'
 	spec.date		= '2014-11-18'
 	spec.summary		= 'Hypixel API'
 	spec.description	= 'A fairly bare-bones Ruby client for the Hypixel API.'
