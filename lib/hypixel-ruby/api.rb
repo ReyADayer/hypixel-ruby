@@ -179,6 +179,22 @@ module Hypixel
             playerCount
         end
 
+        # Returns a Key object, which includes information concerning
+        # your API key's request history.
+        #
+        # Calls API method "key"
+        def key_info
+            request = make_request('key')
+
+            key = Key.from_json request
+
+            if block_given?
+                yield key
+            end
+
+            key
+        end
+
         private
 
         # Automatically generates and executes a request given the type and parameters.
