@@ -218,8 +218,6 @@ module Hypixel
                 return cacher.get uri
             end
 
-            puts "#{uri}"
-
             json = JSON.parse uri.open.read
 
             cacher.store uri, json
