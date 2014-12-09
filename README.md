@@ -51,6 +51,12 @@ hat = player.stats.fields[:Arena]['hat']
 puts "#{player.username} has the \"#{hat}\" hat!"
 ````
 
+hypixel-ruby also contains a basic caching system that can be enabled like so:
+```ruby
+hypixel.cacher.enabled = true # Enable the caching system.
+hypixel.cacher.maxCount = 5 # Only allow us to cache 5 objects (defaults to 10.)
+```
+
 ### Notes
 * It's worth noting all calls are done sync so don't do anything too silly.
 * Some calls (such as the Guilds) require two lookups due to the parameters required for the request. Always use the recommended methods when possible to avoid using extra resources.
