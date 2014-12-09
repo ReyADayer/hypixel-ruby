@@ -6,10 +6,11 @@ module Hypixel
 
     class API
 
-        attr_reader :apiKey
+        attr_reader :apiKey, :cacher
 
         def initialize(apiKey)
             @apiKey = apiKey
+            @cacher = Cacher.new
         end
 
         # Returns an Array of Friend instances consisting of the Player's friends list.
@@ -17,9 +18,9 @@ module Hypixel
         # Params:
         # +username+::Username to find Friends of.
         def friends_by_username(username)
-            request = make_request('friends', {
+            request = make_request 'friends', {
                 :player => username
-            })
+            }
 
             friends = []
 
@@ -44,9 +45,9 @@ module Hypixel
         # Params:
         # +id+::The ID of the Guild.
         def guild_by_id(id)
-            request = make_request('guild', {
+            request = make_request 'guild', {
                 :id => id
-            })
+            }
 
             guild = Guild.from_json request
 
@@ -65,11 +66,11 @@ module Hypixel
         # Params:
         # +name+::The name of the Guild.
         def guild_by_name(name)
-            id = make_request('findGuild', {
+            id = make_request 'findGuild', {
                 :byName => name
-            })['guild']
+            }
 
-            guild_by_id id
+            guild_by_id id['guild']
         end
 
         # Looks up the guild's id using the provided member and then returns the result of guild_by_id.
@@ -80,9 +81,11 @@ module Hypixel
         # Params:
         # +username+::The username of a member of the Guild.
         def guild_by_member(username)
-            guild_by_id make_request('findGuild', {
+            id = make_request 'findGuild', {
                 :byPlayer => username
-            })['guild']
+            }
+
+            guild_by_id id['guild']
         end
 
         # Returns a Player object concerning the Player. Retrieved using the username.
@@ -92,9 +95,9 @@ module Hypixel
         # Params:
         # +username+::Using a UUID is preferred to make sure you get the desired player.
         def player_by_username(username)
-            request = make_request('player', {
+            request = make_request 'player', {
                 :name => username
-            })
+            }
 
             player = Player.from_json request
 
@@ -112,9 +115,9 @@ module Hypixel
         # Params:
         # +uuid+::The player's UUID. This should NOT contain dashes.
         def player_by_uuid(uuid)
-            request = make_request('player', {
+            request = make_request 'player', {
                 :uuid => uuid
-            })
+            }
 
             player = Player.from_json request
 
@@ -132,9 +135,9 @@ module Hypixel
         # Params:
         # +username+::The username of the player.
         def session_by_username(username)
-            request = make_request('session', {
+            request = make_request 'session', {
                 :player => username
-            })
+            }
 
             session = Session.from_json request
 
@@ -149,7 +152,7 @@ module Hypixel
         #
         # Calls API method "boosters"
         def boosters
-            request = make_request('boosters')
+            request = make_request 'boosters'
             boosters = []
 
             if request.has_key? 'boosters'
@@ -184,7 +187,7 @@ module Hypixel
         #
         # Calls API method "key"
         def key_info
-            request = make_request('key')
+            request = make_request 'key'
 
             key = Key.from_json request
 
@@ -199,6 +202,9 @@ module Hypixel
 
         # Automatically generates and executes a request given the type and parameters.
         #
+        # If the Cacher is enabled, this will return a cached value if available.
+        # Otherwise it will run the request and cached the value.
+        #
         # Params:
         # +type+::The API method being called. Tends to be a magic value.
         # +params+::Request parameters, the API key is automagically appended to this array.
@@ -208,7 +214,15 @@ module Hypixel
             uri = URI.parse "https://api.hypixel.net/#{type}"
             uri.query = URI.encode_www_form params
 
-            JSON.parse uri.open.read
+            if cacher.has? uri
+                return cacher.get uri
+            end
+
+            puts "#{uri}"
+
+            json = JSON.parse uri.open.read
+
+            cacher.store uri, json
         end
     end
 end
