@@ -39,6 +39,8 @@ module Hypixel
 
         # Used to check if we have a cached value with the specified key.
         def has?(key)
+            unless @enabled then return false end
+
             @holder.has_key? key
         end
 
