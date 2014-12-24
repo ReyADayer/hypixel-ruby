@@ -57,6 +57,14 @@ hypixel.cacher.enabled = true # Enable the caching system.
 hypixel.cacher.maxCount = 5 # Only allow us to cache 5 objects (defaults to 10.)
 ```
 
+Seeing who is currently on the leaderboards:
+```ruby
+section = api.leaderboards.sections[:Blitz][0]
+topPlayer = section.places[0] # Get the first person in the first section.
+
+puts "#{topPlayer} is 1st in #{section.title} for Blitz SG"
+```
+
 ### Notes
 * It's worth noting all calls are done sync so don't do anything too silly.
 * Some calls (such as the Guilds) require two lookups due to the parameters required for the request. Always use the recommended methods when possible to avoid using extra resources.
