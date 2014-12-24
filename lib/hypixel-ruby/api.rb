@@ -198,6 +198,17 @@ module Hypixel
             key
         end
 
+        # Returns a Leaderboards object, which contains LeaderboardSections
+        # for every GameType, each containing their respective field, name scheme,
+        # and the usernames displayed for that section.
+        #
+        # Calls API method "leaderboards"
+        def leaderboards
+            request = make_request 'leaderboards'
+
+            Leaderboards.from_json request
+        end
+
         private
 
         # Automatically generates and executes a request given the type and parameters.
