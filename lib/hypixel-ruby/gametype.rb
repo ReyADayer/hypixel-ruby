@@ -28,6 +28,8 @@ module Hypixel
                 return :Walls
             when 'WALLS3'
                 return :MegaWalls
+            when 'UHC'
+                return :UHC
             end
         end
 
@@ -55,6 +57,8 @@ module Hypixel
                 return :Arcade
             when 17
                 return :Arena
+            when 20
+                return :UHC
             when 21
                 return :CaC
             end
@@ -86,7 +90,7 @@ module Hypixel
             end
 
             case symbol
-            when :Quakecraft, :Walls, :Paintball, :TNTGames, :VampireZ, :Arcade
+            when :Quakecraft, :Walls, :Paintball, :TNTGames, :VampireZ, :Arcade, :UHC
                 return symbol.to_s
             when :Blitz
                 return 'Blitz SG'
@@ -107,22 +111,12 @@ module Hypixel
             case name
             when 'Quake'
                 return :Quakecraft
-            when 'Walls'
-                return :Walls
-            when 'Paintball'
-                return :Paintball
+            when 'Walls', 'Paintball', 'TNTGames', 'VampireZ', 'Arcade', 'Arena', 'UHC'
+                return name.to_sym
             when 'HungerGames'
                 return :Blitz
-            when 'TNTGames'
-                return :TNTGames
-            when 'VampireZ'
-                return :VampireZ
             when 'Walls3'
                 return :MegaWalls
-            when 'Arcade'
-                return :Arcade
-            when 'Arena'
-                return :Arena
             when 'MCGO'
                 return :CaC
             end
