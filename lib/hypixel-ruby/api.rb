@@ -206,7 +206,13 @@ module Hypixel
         def leaderboards
             request = make_request 'leaderboards'
 
-            Leaderboards.from_json request
+            leaderboards = Leaderboards.from_json request
+            
+            if block_given?
+                yield leaderboards
+            end
+            
+            leaderboards
         end
 
         private
