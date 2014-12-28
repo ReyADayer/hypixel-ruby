@@ -1,67 +1,49 @@
 module Hypixel
 
-    class Leaderboards
+	class Leaderboards
 
-        attr_reader :json, :sections
+		attr_reader :json, :sections
 
-        # Constructs a Leaderboards instance using the JSON object.
-        # Wraps the initialize method for future changes.
-        #
-        # Params:
-        # +json+::The JSON object to construct from.
-        def self.from_json(json)
-            Leaderboards.new json['leaderboards']
-        end
+		def self.from_json(json)
+			Leaderboards.new(json['leaderboards'])
+		end
 
-        private
+		private
 
-        # Offloads the JSON object's values to the local instance.
-        #
-        # Params:
-        # +json+::The JSON object to construct from.
-        def initialize(json)
-            @json = json
-            @sections = {}
+		def initialize(json)
+			@json = json
+			@sections = {}
 
-            json.keys.each do | key |
-                gameType = GameType.from_string key
+			json.keys.each do |key|
+				game_type = GameType.from_string key
 
-                unless @sections.has_key? gameType
-                    @sections[gameType] = []
-                end
+				unless @sections.has_key? game_type
+					@sections[game_type] = []
+				end
 
-                json[key].keys.each do | section |
-                    @sections[gameType] << LeaderboardSection.new(json[key][section])
-                end
-            end
-        end
-    end
+				json[key].keys.each do |section|
+					@sections[game_type] << LeaderboardSection.new(json[key][section])
+				end
+			end
+		end
+	end
 
-    class LeaderboardSection
+	class LeaderboardSection
 
-        attr_reader :json, :places, :title, :places, :field
+		attr_reader :json, :places, :title, :places, :field
 
-        # Constructs a LeaderboardSection instance using the JSON object.
-        # Wraps the initialize method for future changes.
-        #
-        # Params:
-        # +json+::The JSON object to construct from.
-        def self.from_json(json)
-            LeaderboardSection.new json
-        end
+		def self.from_json(json)
+			LeaderboardSection.new(json)
+		end
 
-        private
+		private
 
-        # Offloads the JSON object's values to the local instance.
-        #
-        # Params:
-        # +json+::The JSON object to construct from.
-        def initialize(json)
-            @json = json
-            @places = json['count']
-            @title = json['prefix'] + " " + json['title']
-            @places = json['leaders']
-            @field = json['path']
-        end
-    end
+		def initialize(json)
+			@json = json
+			@places = json['count']
+			@title = json['prefix'] + ' ' + json['title']
+			@places = json['leaders']
+			@field = json['path']
+		end
+	end
 end

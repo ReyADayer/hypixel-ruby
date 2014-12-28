@@ -2,51 +2,35 @@ module Hypixel
 
     class Cacher
 
-        attr_accessor :maxCount, :enabled
+        attr_accessor :enabled, :maxCount, :storage
 
-        # Constructs a Cacher instance.
-        #
-        # A default of 10 is applied to the maxCount.
-        # The Cacher is also not enabled by default.
         def initialize
             @enabled = false
-            @maxCount = 10
-            @holder = {}
+            @maxCount = 5
+            @storage = {}
+
+            @storage[:guild] = {}
+            @storage[:friend] = {}
+            @storage[:player] = {}
+            @storage[:session] = {}
         end
 
-        # Manually clears the cache.
-        def clear
-            @holder.clear
-        end
-
-        # Stores the value into the cache using the specified key.
-        # If the cache size surpasses the maxCount, it will be cleared before it is inserted.
-        #
-        # Params:
-        # +key+::The unique key for the value.
-        # +value+::The value that should be returned when queried.
-        def store(key, value)
-            unless @enabled then return value end
-
-            if @holder.size >= @maxCount
-                @holder.clear
+        def put(type, key, value)
+            if @storage[type].size >= @maxCount
+                @storage[type].shift
             end
 
-            @holder[key] = value
+            @storage[type][key] = value
 
             value
         end
 
-        # Used to check if we have a cached value with the specified key.
-        def has?(key)
-            unless @enabled then return false end
-
-            @holder.has_key? key
+        def has?(type, key)
+            @storage.has_key?(type) && @storage[type].has_key?(key)
         end
 
-        # Returns the cached value with the matching key.
-        def get(key)
-            @holder[key]
+        def get(type, key)
+            @storage[type][key]
         end
     end
 end

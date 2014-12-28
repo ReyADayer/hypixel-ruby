@@ -1,28 +1,23 @@
 module Hypixel
 
-    class Friend
+	class Friend
 
-        attr_reader :json, :username, :since
+		attr_reader :json, :id, :sender, :receiver, :since, :sender_uuid, :receiver_uuid
 
-        # Constructs a Friend instance using the JSON object.
-        # Wraps the initialize method for future changes.
-        #
-        # Params:
-        # +json+::The JSON object to construct from.
-        def self.from_json(json)
-            Friend.new json
-        end
+		def self.from_json(json)
+			Friend.new(json)
+		end
 
-        private
+		private
 
-        # Offloads the JSON object's values to the local instance.
-        #
-        # Params:
-        # +json+::The JSON object to construct from.
-        def initialize(json)
-            @json = json
-            @username = json['receiver']
-            @since = Time.at json['started'] / 1000
-        end
-    end
+		def initialize(json)
+			@json = json
+			@id = json['_id']
+			@sender = json['sender']
+			@receiver = json['receiver']
+			@since = Time.at(json['started'] / 1000)
+			@sender_uuid = json['uuidSender']
+			@receiver_uuid = json['uuidReceiver']
+		end
+	end
 end
