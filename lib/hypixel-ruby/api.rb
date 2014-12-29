@@ -1,243 +1,303 @@
-require 'logger'
-require 'open-uri'
-require 'json'
-
 module Hypixel
 
-    class API
+	class API
 
-        attr_reader :apiKey, :cacher
+		attr_reader :api_key, :requester, :cacher
 
-        def initialize(apiKey)
-            @apiKey = apiKey
-            @cacher = Cacher.new
-        end
+		def initialize(api_key)
+			@api_key = api_key
+			@requester = Requester.new(self)
+			@cacher = Cacher.new
+		end
 
-        # Returns an Array of Friend instances consisting of the Player's friends list.
-        #
-        # Params:
-        # +username+::Username to find Friends of.
-        def friends_by_username(username)
-            request = make_request 'friends', {
-                :player => username
-            }
+		# Options: async refresh
+		#
+		# Constructs a list of all "friends" of the player (found using +username+).
+		# This includes sent and received requests that were accepted by both parties.
+		#
+		# Params:
+		# +username+::The username of the player.
+		def friends_by_username(username, options = {})
+			unless block_given?
+				raise ArgumentError, 'No block given!'
+			end
 
-            friends = []
+			if (!options[:refresh]) && @cacher.has?(:friend, username)
+				yield @cacher.get(:friend, username)
 
-            if request.has_key? 'records'
-                request['records'].each do | record |
-                    friends << Friend.from_json(record)
-                end
-            end
+				return
+			end
 
-            if block_given?
-                yield friends
-            end
+			@requester.make_request({
+				:method => 'friends',
+				:params => {
+						:player => username
+				},
+				:options => options
+			}) do |friends|
+				listing = []
 
-            friends
-        end
+				if friends.has_key? 'records'
+					friends['records'].each do |friend|
+						listing << Friend.from_json(friend)
+					end
+				end
 
-        # Returns a Guild object concerning the Guild.
-        # Retrieved using the Guild's ID.
-        #
-        # Calls API method "guild"
-        #
-        # Params:
-        # +id+::The ID of the Guild.
-        def guild_by_id(id)
-            request = make_request 'guild', {
-                :id => id
-            }
+				yield @cacher.put(:friend, username, listing)
+			end
+		end
 
-            guild = Guild.from_json request
+		# Options: async refresh
+		#
+		# Constructs a Guild object based off the id.
+		#
+		# Params:
+		# +username+::The id of the Guild.
+		def guild_by_id(id, options = {})
+			unless block_given?
+				raise ArgumentError, 'No block given!'
+			end
 
-            if block_given?
-                yield guild
-            end
+			if (!options[:refresh]) && @cacher.has?(:guild, id)
+				yield @cacher.get(:guild, id)
 
-            guild
-        end
+				return
+			end
 
-        # Looks up the Guild's id using the provided name and then returns the result of guild_by_id.
-        # Due to it's nature, this runs two queries.
-        #
-        # Calls API method "findGuild"
-        #
-        # Params:
-        # +name+::The name of the Guild.
-        def guild_by_name(name)
-            id = make_request 'findGuild', {
-                :byName => name
-            }
+			@requester.make_request({
+				:method => 'guild',
+				:params => {
+						:id => id
+				},
+				:options => options
+			}) do |guild|
+				yield @cacher.put(:guild, id, Guild.from_json(guild))
+			end
+		end
 
-            guild_by_id id['guild']
-        end
+		# Options: async refresh
+		#
+		# Runs a query to determine the id of the Guild,
+		# it then uses this to lookup and construct the Guild object.
+		#
+		# If you know the Guild's id, it's recommended to use guild_by_id.
+		#
+		# Params:
+		# +name+::The name of the Guild.
+		def guild_id_by_name(name, options = {})
+			unless block_given?
+				raise ArgumentError, 'No block given!'
+			end
 
-        # Looks up the guild's id using the provided member and then returns the result of guild_by_id.
-        # Due to it's nature, this runs two queries.
-        #
-        # Calls API method "findGuild"
-        #
-        # Params:
-        # +username+::The username of a member of the Guild.
-        def guild_by_member(username)
-            id = make_request 'findGuild', {
-                :byPlayer => username
-            }
+			if (!options[:refresh]) && @cacher.has?(:guild, name)
+				yield @cacher.get(:guild, name)
 
-            guild_by_id id['guild']
-        end
+				return
+			end
 
-        # Returns a Player object concerning the Player. Retrieved using the username.
-        #
-        # Calls API method "player"
-        #
-        # Params:
-        # +username+::Using a UUID is preferred to make sure you get the desired player.
-        def player_by_username(username)
-            request = make_request 'player', {
-                :name => username
-            }
+			@requester.make_request({
+				:method => 'findGuild',
+				:params => {
+						:byName => name
+				},
+				:options => options
+			}) do |guild|
+				yield @cacher.put(:guild, name, guild['guild'])
+			end
+		end
 
-            player = Player.from_json request
+		# Options: async refresh
+		#
+		# Runs a query to determine the Guild of the player,
+		# it then uses this to lookup and construct the Guild object.
+		#
+		# If you know the Guild's id, it's recommended to use guild_by_id.
+		#
+		# Params:
+		# +username+::A username of a player in the Guild.
+		def guild_id_by_member(username, options = {})
+			unless block_given?
+				raise ArgumentError, 'No block given!'
+			end
 
-            if block_given?
-                yield player
-            end
+			if (!options[:refresh]) && @cacher.has?(:guild, username)
+				yield @cacher.get(:guild, username)
 
-            player
-        end
+				return
+			end
 
-        # Returns a Player object concerning the Player. Retrieved using the UUID.
-        #
-        # Calls API method "player"
-        #
-        # Params:
-        # +uuid+::The player's UUID. This should NOT contain dashes.
-        def player_by_uuid(uuid)
-            request = make_request 'player', {
-                :uuid => uuid
-            }
+			@requester.make_request({
+				:method => 'findGuild',
+				:params => {
+						:byPlayer => username
+				},
+				:options => options
+			}) do |guild|
+				yield @cacher.put(:guild, username, guild['guild'])
+			end
+		end
 
-            player = Player.from_json request
+		# Options: async refresh
+		#
+		# Constructs a Player object around the username provided.
+		#
+		# Params:
+		# +username+::The username of the player.
+		def player_by_username(username, options = {})
+			unless block_given?
+				raise ArgumentError, 'No block given!'
+			end
 
-            if block_given?
-                yield player
-            end
+			if (!options[:refresh]) && @cacher.has?(:player, username)
+				yield @cacher.get(:player, username)
 
-            player
-        end
+				return
+			end
 
-        # Returns a Session concerning the Player. Retrieved using the username.
-        #
-        # Calls API method "player"
-        #
-        # Params:
-        # +username+::The username of the player.
-        def session_by_username(username)
-            request = make_request 'session', {
-                :player => username
-            }
+			@requester.make_request({
+				:method => 'player',
+				:params => {
+						:name => username
+				},
+				:options => options
+			}) do |player|
+				yield @cacher.put(:player, username, Player.from_json(player))
+			end
+		end
 
-            session = Session.from_json request
+		# Options: async refresh
+		#
+		# Constructs a Player object around the uuid provided.
+		#
+		# Params:
+		# +uuid+::The uuid of the player.
+		def player_by_uuid(uuid, options = {})
+			unless block_given?
+				raise ArgumentError, 'No block given!'
+			end
 
-            if block_given?
-                yield session
-            end
+			if (!options[:refresh]) && @cacher.has?(:player, uuid)
+				yield @cacher.get(:player, uuid)
 
-            session
-        end
+				return
+			end
 
-        # Returns an Array of active Boosters.
-        #
-        # Calls API method "boosters"
-        def boosters
-            request = make_request 'boosters'
-            boosters = []
+			@requester.make_request({
+				:method => 'player',
+				:params => {
+						:uuid => uuid
+				},
+				:options => options
+			}) do |player|
+				yield @cacher.put(:player, uuid, Player.from_json(player))
+			end
+		end
 
-            if request.has_key? 'boosters'
-                request['boosters'].each do | json |
-                    boosters << Booster.from_json(json)
-                end
-            end
+		# Options: async refresh
+		#
+		# Constructs a Session object based off the player with the specified username.
+		# If the player is not in a game session, it will return nil.
+		#
+		# Params:
+		# +username+::The username of the player.
+		def session_by_username(username, options = {})
+			unless block_given?
+				raise ArgumentError, 'No block given!'
+			end
 
-            if block_given?
-                yield boosters
-            end
+			if (!options[:refresh]) && @cacher.has?(:session, username)
+				yield @cacher.get(:session, username)
 
-            boosters
-        end
+				return
+			end
 
-        # Returns the online player count.
-        # Should be updated every second by the API server.
-        #
-        # Calls API method "playerCount"
-        def player_count
-            playerCount = make_request('playerCount')['count']
+			@requester.make_request({
+				:method => 'session',
+				:params => {
+						:player => username
+				},
+				:options => options
+			}) do |session|
+				yield @cacher.put(:session, username, Session.from_json(session))
+			end
+		end
 
-            if block_given?
-                yield playerCount
-            end
+		# Options: async
+		#
+		# Returns a list of Booster objects.
+		# Includes queued and active boosters.
+		def boosters(options = {})
+			unless block_given?
+				raise ArgumentError, 'No block given!'
+			end
 
-            playerCount
-        end
+			@requester.make_request({
+				:method => 'boosters',
+				:options => options
+			}) do |boosters|
+				listing = []
 
-        # Returns a Key object, which includes information concerning
-        # your API key's request history.
-        #
-        # Calls API method "key"
-        def key_info
-            request = make_request 'key'
+				if boosters.has_key? 'boosters'
+					request['boosters'].each do |booster|
+						listing << Booster.from_json(booster)
+					end
+				end
 
-            key = Key.from_json request
+				yield listing
+			end
+		end
 
-            if block_given?
-                yield key
-            end
+		# Options: async anonymous
+		#
+		# Returns an integer of the number of players currently on the network.
+		# It should be recent (1-3 seconds) however sometimes can be outdated.
+		#
+		# The call itself does not require a API key. As such if you wish to not
+		# send your key in the request, specify :anonymous in the options.
+		def player_count(options = {})
+			unless block_given?
+				raise ArgumentError, 'No block given!'
+			end
 
-            key
-        end
+			@requester.make_request({
+				:method => 'playerCount',
+				:options => options
+			}) do |player_count|
+				yield player_count['count'].to_i
+			end
+		end
 
-        # Returns a Leaderboards object, which contains LeaderboardSections
-        # for every GameType, each containing their respective field, name scheme,
-        # and the usernames displayed for that section.
-        #
-        # Calls API method "leaderboards"
-        def leaderboards
-            request = make_request 'leaderboards'
+		# Options: async
+		#
+		# Returns a Key object that includes information about your API key.
+		def key_info(options = {})
+			unless block_given?
+				raise ArgumentError, 'No block given!'
+			end
 
-            leaderboards = Leaderboards.from_json request
-            
-            if block_given?
-                yield leaderboards
-            end
-            
-            leaderboards
-        end
+			@requester.make_request({
+				:method => 'key',
+				:options => options
+			}) do |key|
+				yield Key.from_json(key)
+			end
+		end
 
-        private
+		# Options: async
+		#
+		# Returns a Leaderboards object that includes leaderboard
+		# information for all games, network wide.
+		def leaderboards(options = {})
+			unless block_given?
+				raise ArgumentError, 'No block given!'
+			end
 
-        # Automatically generates and executes a request given the type and parameters.
-        #
-        # If the Cacher is enabled, this will return a cached value if available.
-        # Otherwise it will run the request and cached the value.
-        #
-        # Params:
-        # +type+::The API method being called. Tends to be a magic value.
-        # +params+::Request parameters, the API key is automagically appended to this array.
-        def make_request(type, params = {})
-            params[:key] = apiKey
-
-            uri = URI.parse "https://api.hypixel.net/#{type}"
-            uri.query = URI.encode_www_form params
-
-            if cacher.has? uri
-                return cacher.get uri
-            end
-
-            json = JSON.parse uri.open.read
-
-            cacher.store uri, json
-        end
-    end
+			@requester.make_request({
+				:method => 'leaderboards',
+				:options => options
+			}) do |leaderboards|
+				yield Leaderboards.from_json(leaderboards)
+			end
+		end
+	end
 end

@@ -1,30 +1,22 @@
 module Hypixel
 
-    class Player
+	class Player
 
-        attr_reader :json, :username, :uuid, :stats, :rank
+		attr_reader :json, :id, :username, :uuid, :stats, :rank
 
-        # Constructs a Player instance using the JSON object.
-        # Wraps the initialize method for future changes.
-        #
-        # Params:
-        # +json+::The JSON object to construct from.
-        def self.from_json(json)
-            Player.new json['player']
-        end
+		def self.from_json(json)
+			Player.new(json['player'])
+		end
 
-        private
+		private
 
-        # Offloads the JSON object's values to the local instance.
-        #
-        # Params:
-        # +json+::The JSON object to construct from.
-        def initialize(json)
-            @json = json
-            @username = json['playername']
-            @uuid = json['uuid']
-            @stats = Stats.from_json json
-            @rank = Rank.top [json['rank'], json['packageRank'], json['newPackageRank']], false
-        end
-    end
+		def initialize(json)
+			@json = json
+			@id = json['_id']
+			@username = json['playername']
+			@uuid = json['uuid']
+			@stats = Stats.from_json json
+			@rank = Rank.top [json['rank'], json['packageRank'], json['newPackageRank']], false
+		end
+	end
 end
